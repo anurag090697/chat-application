@@ -1,33 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useRef, useState } from 'react'
+import { io } from 'socket.io-client';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [message, setMessage] = useState('');
+  const [chatHistory, setChatHistory] = useState([]);
+
+  const socket = useRef();
+
+  console.log(chatHistory)
+  useEffect(() => {
+    socket.current = io("http://localhost:3000");
+    socket.current.on('connect', () => {
+      console.log("Connections established");
+    });
+
+    const chatId = 123; // Replace with the actual chatId the user is interacting with
+    socket.current.emit("joinRoom", chatId);
+
+    socket.current.on("newMessage", (newMessage) => {
+      console.log("New message received: ", newMessage);
+      setChatHistory((prevChatHistory) => [...prevChatHistory, newMessage]);
+    });
+
+    return () => {
+      socket.current.off("newMessage");
+      socket.current.off("joinRoom");
+      socket.current.disconnect();
+    };
+  }, []);
+
+  const sendMessage = () => {
+    const messageData = {
+      content: message,
+      chatId: 123,
+      senderId: {
+        _id: 123, // Wrap the senderId as an object
+      },
+      timestamp: new Date().toISOString(), // Include a timestamp if needed
+    };
+    socket.current.emit("sendMessage", messageData);
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <input type="text" onChange={e => setMessage(e.target.value)} />
+      <button onClick={sendMessage}>Send Message</button>
     </>
   )
 }
