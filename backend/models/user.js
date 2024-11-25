@@ -14,6 +14,16 @@ const userSchema = new mongoose.Schema(
             required: true, // Make the field mandatory
             // minlength: 6,   // Set a minimum length for security
         },
+        requests: {
+            type: [mongoose.Schema.Types.ObjectId], // Array of ObjectId references
+            ref: 'User', // Reference to the same User collection
+            default: [], // Default value is an empty array
+        },
+        friends: {
+            type: [mongoose.Schema.Types.ObjectId], // Array of ObjectId references
+            ref: 'User', // Reference to the same User collection
+            default: [], // Default value is an empty array
+        },
     },
     {
         timestamps: true, // Automatically create `createdAt` and `updatedAt` fields

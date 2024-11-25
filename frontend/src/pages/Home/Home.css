@@ -1,0 +1,42 @@
+.container{
+    border: 5px solid black;
+    height: 80%;
+    display: flex;
+
+}
+
+.left-side{
+    border: 5px solid green;
+    width: 30%;
+}
+
+.right-side{
+    width: 70%;
+    border: 5px solid red;
+}
+
+.tool-bar{
+    border: 5px solid blue;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tools{
+    width: 33%;
+    text-align: center;
+    border: 5px solid red;
+    transition-duration: 1s;
+    transition-property: all;
+    background-color: grey;
+}
+
+.tools:hover{
+    cursor: pointer;
+    background-color: yellow;
+}
+
+.selected-tab{
+    background-color:aqua;
+}

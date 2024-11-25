@@ -7,6 +7,7 @@ import cors from 'cors';
 import { connectToDatabase } from './config/connectToDatabase.js';
 import authRoutes from './routes/authRoutes.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
+import userRoutes from './routes/userRoutes.js';
 
 const app = express();
 
@@ -28,8 +29,10 @@ const io = new Server(server, { // Initialize Socket.IO
 app.use(express.json());
 
 app.use('/auth', authRoutes);
-app.get('/abc',authMiddleware,(req,res)=>{
-    res.status(201).json({message: 'iweno'});
+app.use('/user', userRoutes);
+
+app.get('/abc', authMiddleware, (req, res) => {
+    res.status(201).json({ message: 'iweno' });
 })
 
 app.use((err, req, res, next) => {

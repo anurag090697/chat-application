@@ -1,52 +1,26 @@
-import { useEffect, useRef, useState } from 'react'
-import { io } from 'socket.io-client';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home/Home"
+import SignUp from "./pages/SignUp"
+import NoPage from "./pages/NoPage";
+import Layout from "./components/Layout";
+import SignIn from "./pages/SignIn";
+import { useState } from "react";
 
 function App() {
-  const [message, setMessage] = useState('');
-  const [chatHistory, setChatHistory] = useState([]);
-
-  const socket = useRef();
-
-  console.log(chatHistory)
-  useEffect(() => {
-    socket.current = io("http://localhost:3000");
-    socket.current.on('connect', () => {
-      console.log("Connections established");
-    });
-
-    const chatId = 123; // Replace with the actual chatId the user is interacting with
-    socket.current.emit("joinRoom", chatId);
-
-    socket.current.on("newMessage", (newMessage) => {
-      console.log("New message received: ", newMessage);
-      setChatHistory((prevChatHistory) => [...prevChatHistory, newMessage]);
-    });
-
-    return () => {
-      socket.current.off("newMessage");
-      socket.current.off("joinRoom");
-      socket.current.disconnect();
-    };
-  }, []);
-
-  const sendMessage = () => {
-    const messageData = {
-      content: message,
-      chatId: 123,
-      senderId: {
-        _id: 123, // Wrap the senderId as an object
-      },
-      timestamp: new Date().toISOString(), // Include a timestamp if needed
-    };
-    socket.current.emit("sendMessage", messageData);
-  }
-
+  const [user, setUser] = useState(null);
   return (
-    <>
-      <input type="text" onChange={e => setMessage(e.target.value)} />
-      <button onClick={sendMessage}>Send Message</button>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout user={user} />} >
+          <Route index element={<Home />} />
+          <Route path="/sign-up" element={<SignUp setUser={setUser} />} />
+          <Route path="/sign-in" element={<SignIn setUser={setUser} />} />
+          <Route path='/home' element={<Home />} />
+          <Route path="*" element={<NoPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App
