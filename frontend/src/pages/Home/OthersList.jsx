@@ -6,7 +6,7 @@ const OthersList = () => {
     const [otherUsers, setOtherusers] = useState([]);
     useEffect(() => {
         const fetchOtherusers = async () => {
-            const response = await axios.get('http://localhost:3000/user/other-users', {
+            const response = await axiosInstance.get('/user/other-users', {
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('token')
                 }
@@ -16,6 +16,16 @@ const OthersList = () => {
         }
         fetchOtherusers();
     }, []);
+    const handleSendRequest = async (requestUserId) => {
+        const response = await axiosInstance.post('/user/send-request', {
+            requestUserId
+        }, {
+            headers: {
+                'Authorization': 'Bearer ' + Cookies.get('token')
+            }
+        });
+        setOtherusers(response.data.otherUsers);
+    }
     return (
         <>
             {
@@ -24,7 +34,11 @@ const OthersList = () => {
                     <div>
                         {
                             otherUsers.map(
-                                user => <h1>{user.username}</h1>
+                                user =>
+                                    <div className='list-item'>
+                                        <p>{user.username}</p>
+                                        <button onClick={() => handleSendRequest(user._id)}>Send Request</button>
+                                    </div>
                             )
                         }
                     </div>

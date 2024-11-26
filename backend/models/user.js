@@ -14,7 +14,8 @@ const userSchema = new mongoose.Schema(
             required: true, // Make the field mandatory
             // minlength: 6,   // Set a minimum length for security
         },
-        requests: {
+        // a people to which you sent request
+        sent_request: {
             type: [mongoose.Schema.Types.ObjectId], // Array of ObjectId references
             ref: 'User', // Reference to the same User collection
             default: [], // Default value is an empty array
@@ -24,6 +25,12 @@ const userSchema = new mongoose.Schema(
             ref: 'User', // Reference to the same User collection
             default: [], // Default value is an empty array
         },
+        // a people from which you got request
+        received_request:{
+            type: [mongoose.Schema.Types.ObjectId], // Array of ObjectId references
+            ref: 'User', // Reference to the same User collection
+            default: [], // Default value is an empty array
+        }
     },
     {
         timestamps: true, // Automatically create `createdAt` and `updatedAt` fields

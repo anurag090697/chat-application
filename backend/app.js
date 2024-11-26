@@ -8,6 +8,7 @@ import { connectToDatabase } from './config/connectToDatabase.js';
 import authRoutes from './routes/authRoutes.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
+import chatRoutes from './routes/chatRoute.js'
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use(express.json());
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
+app.use('/chat', chatRoutes);
 
 app.get('/abc', authMiddleware, (req, res) => {
     res.status(201).json({ message: 'iweno' });
