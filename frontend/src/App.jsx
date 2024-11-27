@@ -5,6 +5,7 @@ import NoPage from "./pages/NoPage";
 import Layout from "./components/Layout";
 import SignIn from "./pages/SignIn";
 import { useEffect, useState } from "react";
+import axiosInstance from "./config/axios";
 
 function App() {
   const [user, setUser] = useState(null);

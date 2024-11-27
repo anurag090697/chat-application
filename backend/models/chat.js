@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+// user1 and user2 will gonna be decide on alphabetic order
 const chatSchema = new mongoose.Schema({
     user1: {
         type: mongoose.Schema.Types.ObjectId,

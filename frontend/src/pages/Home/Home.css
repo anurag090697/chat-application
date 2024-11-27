@@ -49,3 +49,20 @@
     height: 50px;
     align-items: center;
 }
+
+.list{
+    overflow-y: scroll;
+    height: 100%;
+}
+
+.friend-name{
+    background-color: yellow;
+    transition-duration: 1s;
+    transition-property: all;
+}
+
+.friend-name:hover{
+    background-color: blue;
+    cursor: pointer;
+    color: white;
+}

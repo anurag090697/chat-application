@@ -1,24 +1,31 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie'
+import axiosInstance from '../../config/axios';
 
 const ReceivedRequestedList = () => {
     const [requestList, setRequestList] = useState([]);
+    const [pageDetails, setPageDetails] = useState({
+        currentPage: 1,
+        totalPages: 1,
+        limit: 10
+    });
+    const fetchReceivedRequestList = async (currentPage) => {
+        const response = await axiosInstance.get(`/user/received-requests?page=${currentPage}&limit=${pageDetails.limit}`);
+        setRequestList(response.data.requests);
+        setPageDetails(response.data.pageDetails);
+    }
     useEffect(() => {
-        const fetchReceivedRequestList = async () => {
-            const response = await axiosInstance.get('/user/received-requests');
-            setRequestList(response.data.requests);
-            console.log(response.data);
-        }
         fetchReceivedRequestList();
     }, []);
     const handleAcceptRequest = async (requestUserId) => {
         const response = await axiosInstance.post('/user/accept-request', { requestUserId });
-        console.log(response.data.receivedRequest);
-        setRequestList(response.data.receivedRequest);
+        setRequestList(response.data.requests);
+        setPageDetails(response.data.pageDetails);
     }
     return (
-        <>
+        <div className='list'>
+            <>
             {
                 requestList.length == 0 ?
                     <h1>No Received Request Found</h1> :
@@ -34,7 +41,13 @@ const ReceivedRequestedList = () => {
                         }
                     </div>
             }
-        </>
+            </>
+            <div>
+                <button disabled={1 == pageDetails.currentPage} onClick={() => fetchUsers(pageDetails.currentPage - 1)}>Previous</button>
+                <span>Page {pageDetails.currentPage} of {pageDetails.totalPages}</span>
+                <button disabled={pageDetails.totalPages == pageDetails.currentPage} onClick={() => fetchUsers(pageDetails.currentPage + 1)}>Next</button>
+            </div>
+        </div>
     )
 }
 
