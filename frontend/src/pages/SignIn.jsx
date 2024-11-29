@@ -9,7 +9,7 @@ const SignIn = ({ setUser }) => {
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios.post("http://localhost:3000/auth/sign-in", { username: userName, password });
+        const response = await axios.post("https://chat-application-backend-hrvk.onrender.com/auth/sign-in", { username: userName, password });
         Cookies.set('token', response.data.token);
         console.log(response.data)
         setUser({ id: response.data.id, username: response.data.username });

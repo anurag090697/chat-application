@@ -12,7 +12,7 @@ const Chat = ({ selectedFriendId, user }) => {
     console.log(selectedFriendId)
     useEffect(() => {
         if (user) {
-            socket.current = io("http://localhost:3000");
+            socket.current = io("https://chat-application-backend-hrvk.onrender.com");
             socket.current.emit("register_user", user._id);
         }
     }, [user]);
