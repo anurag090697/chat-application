@@ -10,14 +10,12 @@ export const authMiddleware = (req, res, next) => {
     if (!authHeader) {
         return res.status(401).json({ message: 'Authorization header missing' });
     }
-    console.log(authHeader)
     const token = authHeader.split(' ')[1]; // Extract the token from "Bearer <token>"
     if (!token) {
         return res.status(401).json({ message: 'Token missing' });
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
-        console.log(payload)
         if (err) {
             return res.status(403).json({ message: 'Invalid or expired token' });
         }

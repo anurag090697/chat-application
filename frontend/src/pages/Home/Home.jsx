@@ -6,7 +6,7 @@ import SentRequestList from './SentRequestList.jsx'
 import ReceivedRequestedList from './ReceivedRequestedList.jsx';
 import Chat from './Chat.jsx';
 
-const Home = () => {
+const Home = ({user}) => {
   const [tabName, setTabName] = useState('friends');
   const [selectedFriendId, setSelectedFriendId] = useState(null);
   return (
@@ -19,12 +19,12 @@ const Home = () => {
           <h3 className={'others' == tabName ? 'selected-tab tools' : 'tools'} onClick={() => setTabName('others')}>Others</h3>
         </div>
         <div>
-          {tabName === 'friends' && <FriendsList setSelectedFriendId={setSelectedFriendId} />}
+          {tabName === 'friends' && <FriendsList setSelectedFriendId={setSelectedFriendId} user={user} selectedFriendId={selectedFriendId} />}
         </div>
       </div>
       <div className="right-side">
         {
-          tabName === 'friends' ? <Chat selectedFriendId={selectedFriendId} /> :
+          tabName === 'friends' ? <Chat selectedFriendId={selectedFriendId} user={user}/> :
             tabName === 'sent-request' ? <SentRequestList /> :
               tabName === 'received-request' ? <ReceivedRequestedList /> :
                 <OthersList />

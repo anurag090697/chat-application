@@ -1,21 +1,21 @@
-.container{
+.container {
     border: 5px solid black;
     height: 80%;
     display: flex;
 
 }
 
-.left-side{
+.left-side {
     border: 5px solid green;
     width: 30%;
 }
 
-.right-side{
+.right-side {
     width: 70%;
     border: 5px solid red;
 }
 
-.tool-bar{
+.tool-bar {
     border: 5px solid blue;
     height: 10%;
     display: flex;
@@ -23,7 +23,7 @@
     align-items: center;
 }
 
-.tools{
+.tools {
     width: 25%;
     text-align: center;
     border: 5px solid red;
@@ -32,16 +32,16 @@
     background-color: grey;
 }
 
-.tools:hover{
+.tools:hover {
     cursor: pointer;
     background-color: yellow;
 }
 
-.selected-tab{
-    background-color:aqua;
+.selected-tab {
+    background-color: aqua;
 }
 
-.list-item{
+.list-item {
     display: flex;
     justify-content: space-around;
     border: 2px solid black;
@@ -50,19 +50,70 @@
     align-items: center;
 }
 
-.list{
+.list {
     overflow-y: scroll;
     height: 100%;
 }
 
-.friend-name{
+.friend-name {
     background-color: yellow;
     transition-duration: 1s;
     transition-property: all;
 }
 
-.friend-name:hover{
+.friend-name:hover {
     background-color: blue;
     cursor: pointer;
     color: white;
+}
+
+.chat-container {
+    position: relative;
+    /* border: 5px solid green; */
+    height: 100%;
+}
+
+.selected-friend{
+    background-color: pink;
+}
+
+.chat-form {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* border: 5px solid green; */
+    height: 5%;
+    display: flex;
+    justify-content: center;
+}
+
+.chat-form>input[type="text"] {
+    width: 90%;
+
+}
+
+.chat-form>input {
+    display: inline-block;
+    height: 100%;
+}
+
+.chat-history-container{
+    border: 5px solid green;
+    height: 95%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-content{
+    border: 2px solid green;
+    margin: 10px 0px
+}
+
+.left-chat{
+    text-align: left;
+}
+
+.right-chat{
+    text-align: right;
 }

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie'
 import axiosInstance from '../../config/axios';
 
-const FriendsList = ({ setSelectedFriendId }) => {
+const FriendsList = ({ setSelectedFriendId, selectedFriendId }) => {
   const [friendList, setFriendList] = useState([]);
   const [pageDetails, setPageDetails] = useState({
     currentPage: 1,
@@ -19,6 +19,8 @@ const FriendsList = ({ setSelectedFriendId }) => {
   useEffect(() => {
     fetchFriendList();
   }, []);
+  console.log(selectedFriendId)
+  
   return (
     <div className='friend-list'>
       <>
@@ -29,7 +31,9 @@ const FriendsList = ({ setSelectedFriendId }) => {
               {
                 friendList.map(
                   user =>
-                    <div onClick={() => setSelectedFriendId(user._id)} className='list-item friend-name'>
+                    <div
+                      onClick={() => setSelectedFriendId(user._id)}
+                      className={selectedFriendId == user._id ? 'list-item friend-name selected-friend' : 'list-item friend-name'}>
                       <p>{user.username}</p>
                     </div>
                 )

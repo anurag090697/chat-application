@@ -28,7 +28,7 @@ router.post('/sign-in', asyncHandler(async (req, res) => {
     } else {
         if (user.password == password) {
             const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-            res.status(200).json({ message: 'LoggedIn Successfully', token, id: user._id, username: user.username });
+            res.status(200).json({ message: 'LoggedIn Successfully', token, user });
         } else {
             res.status(401).json({ message: 'Invalid Creds' })
         }

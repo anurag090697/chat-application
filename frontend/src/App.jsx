@@ -6,6 +6,8 @@ import Layout from "./components/Layout";
 import SignIn from "./pages/SignIn";
 import { useEffect, useState } from "react";
 import axiosInstance from "./config/axios";
+import PrivateRouter from "./components/PrivateRouter";
+import PublicRouter from "./components/PublicRouter";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -20,14 +22,13 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout user={user} setUser={setUser} />} >
-          <Route index element={<Home />} />
-          <Route path="/sign-up" element={<SignUp setUser={setUser} />} />
-          <Route path="/sign-in" element={<SignIn setUser={setUser} />} />
-          <Route path='/home' element={<Home />} />
+          <Route path="/sign-up" element={<PublicRouter><SignUp setUser={setUser} /></PublicRouter>} />
+          <Route path="/sign-in" element={<PublicRouter><SignIn setUser={setUser} /></PublicRouter>} />
+          <Route path='/home' element={<PrivateRouter><Home user={user} /></PrivateRouter>} />
           <Route path="*" element={<NoPage />} />
         </Route>
-      </Routes>
-    </BrowserRouter>
+      </Routes >
+    </BrowserRouter >
   );
 }
 

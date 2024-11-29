@@ -57,7 +57,6 @@ router.get('/received-requests', authMiddleware, asyncHandler(async (req, res) =
 router.post("/accept-request", authMiddleware, asyncHandler(async (req, res) => {
     const { requestUserId } = req.body;
     const user = await UserModel.findById(req.userId);
-    console.log(user)
     const resultId = user.received_request.find(id => id == requestUserId);
 
     if (resultId) {
@@ -124,7 +123,6 @@ router.get('/other-users', authMiddleware, asyncHandler(async (req, res) => {
     const skip = (page - 1) * limit;
 
     const user = await UserModel.findById(req.userId);
-    console.log(user);
     const otherUsers = await UserModel.find({
         _id: { $nin: [...user.friends, ...user.received_request, ...user.sent_request, req.userId] }
     })

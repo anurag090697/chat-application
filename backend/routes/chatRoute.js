@@ -5,25 +5,10 @@ import { ChatModel } from '../models/chat.js';
 
 const route = Router();
 
-route.post('/send', authMiddleware, expressAsyncHandler(async (req, res) => {
-    const { receiver, content } = req.body;
-    const sender = req.userId;
-    const user1 = receiver > sender ? sender : receiver;
-    const user2 = receiver > sender ? receiver : sender;
+export const sendChat = expressAsyncHandler(async (user1,user2,sender, content) => {
+    const document = await ChatModel.findOne({ user1, user2 });
 
-    const updatedDocument = await ChatModel.findByIdAndUpdate(
-        document._id,
-        {
-            $push: {
-                chat: {
-                    sendBy: sender,
-                    content
-                }
-            }
-        },
-        { new: true } // Return the updated document
-    );
-    if (null == updatedDocument) {
+    if (null == document) {
         const savedDocument = await new ChatModel({
             user1,
             user2,
@@ -32,10 +17,31 @@ route.post('/send', authMiddleware, expressAsyncHandler(async (req, res) => {
                 content
             }]
         }).save();
-        res.status(201).json({ chat: savedDocument });
+        return savedDocument;
     } else {
-        res.status(201).json({ chat: updatedDocument });
+        const updatedDocument = await ChatModel.findByIdAndUpdate(
+            document._id,
+            {
+                $push: {
+                    chat: {
+                        sendBy: sender,
+                        content
+                    }
+                }
+            },
+            { new: true } // Return the updated document
+        );
+        return updatedDocument;
     }
+});
+
+route.post('/send', authMiddleware, expressAsyncHandler(async (req, res) => {
+    const { receiver, content } = req.body;
+    const sender = req.userId;
+    const user1 = receiver > sender ? sender : receiver;
+    const user2 = receiver > sender ? receiver : sender;
+    const document = await sendChat(user1, user2,sender, content);
+    res.status(201).json({ chatHistory: document });
 }));
 
 route.post('/history', authMiddleware, expressAsyncHandler(async (req, res) => {
