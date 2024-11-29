@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axiosInstance from '../../config/axios';
-import './home.css'
+// import './home.css'
 import io from "socket.io-client";
 import { nanoid } from 'nanoid'
 
